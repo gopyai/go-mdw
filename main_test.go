@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gopyai/err"
-	"github.com/gopyai/mdw2"
+	"github.com/gopyai/go-err"
+	"github.com/gopyai/go-mdw"
 	"github.com/justinas/alice"
 )
 

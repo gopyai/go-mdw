@@ -19,8 +19,6 @@ var (
 
 	errTPSLimitValue  = errors.New("Valid limit value is: limit=0 or limit >= 1")
 	errOpenLimitValue = errors.New("Valid limit value must is limit >= 0")
-	//errBasePathNotMatched = errors.New("Matched Base-Path not found")
-	//errBasePathRequired   = errors.New("Requires Base-Path header")
 )
 
 func MustMethod(must string) func(http.Handler) http.Handler {

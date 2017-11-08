@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/gopyai/mdw2"
+	"github.com/gopyai/go-mdw"
 	"github.com/justinas/alice"
 )
 
