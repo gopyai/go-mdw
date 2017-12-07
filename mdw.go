@@ -28,7 +28,7 @@ func MustMethod(must string) func(http.Handler) http.Handler {
 			func(w http.ResponseWriter, r *http.Request) {
 
 				if r.Method != must {
-					http.Error(w, sErrMethod, http.StatusServiceUnavailable)
+					http.Error(w, sErrMethod, http.StatusBadRequest)
 					return
 				}
 				next.ServeHTTP(w, r)
@@ -103,7 +103,7 @@ func AuthKeys(keys []string) func(http.Handler) http.Handler {
 			func(w http.ResponseWriter, r *http.Request) {
 
 				if errStr := errStr(r.Header); len(errStr) != 0 {
-					http.Error(w, errStr, http.StatusServiceUnavailable)
+					http.Error(w, errStr, http.StatusUnauthorized)
 					return
 				}
 				next.ServeHTTP(w, r)
@@ -131,7 +131,7 @@ func OpenLimit(limit int) func(http.Handler) http.Handler {
 				lck.Lock()
 				if lck.cnt >= limit {
 					lck.Unlock()
-					http.Error(w, sErrOpenOverLimit, http.StatusServiceUnavailable)
+					http.Error(w, sErrOpenOverLimit, http.StatusTooManyRequests)
 					return
 				}
 				lck.cnt++
@@ -184,7 +184,7 @@ func TPSLimit(limit, burst float64) func(http.Handler) http.Handler {
 				if lck.tx < 1 {
 					// Not enough counter, error
 					lck.Unlock()
-					http.Error(w, sErrTPSOverLimit, http.StatusServiceUnavailable)
+					http.Error(w, sErrTPSOverLimit, http.StatusTooManyRequests)
 					return
 				}
 
