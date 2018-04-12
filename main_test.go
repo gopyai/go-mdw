@@ -75,7 +75,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_, e = w.Write([]byte(fmt.Sprintf("URI: %s is OK", r.RequestURI)))
-	ifErr(e)
+	panicIf(e)
 }
 
 func delayedHandler(w http.ResponseWriter, r *http.Request) {
@@ -86,7 +86,7 @@ func delayedHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	_, e = w.Write([]byte("OK"))
-	ifErr(e)
+	panicIf(e)
 }
 
 func doHttpPost(header map[string]string, url string, body []byte) ([]byte, int, error) {
@@ -111,7 +111,7 @@ func doHttpPost(header map[string]string, url string, body []byte) ([]byte, int,
 	return b, res.StatusCode, e
 }
 
-func ifErr(e error) {
+func panicIf(e error) {
 	if e != nil {
 		panic(e)
 	}
