@@ -9,7 +9,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gopyai/go-err"
 	"github.com/gopyai/go-mdw"
 	"github.com/justinas/alice"
 )
@@ -71,23 +70,23 @@ func TestMain(m *testing.M) {
 func handler(w http.ResponseWriter, r *http.Request) {
 	_, e := ioutil.ReadAll(r.Body)
 	if e != nil {
-		//		fmt.Println("Server Error:", e)
+		// fmt.Println("Server Error:", e)
 		return
 	}
 
 	_, e = w.Write([]byte(fmt.Sprintf("URI: %s is OK", r.RequestURI)))
-	err.Panic(e)
+	ifErr(e)
 }
 
 func delayedHandler(w http.ResponseWriter, r *http.Request) {
 	time.Sleep(time.Millisecond * 100)
 	_, e := ioutil.ReadAll(r.Body)
 	if e != nil {
-		//		fmt.Println("Server Error:", e)
+		// fmt.Println("Server Error:", e)
 		return
 	}
 	_, e = w.Write([]byte("OK"))
-	err.Panic(e)
+	ifErr(e)
 }
 
 func doHttpPost(header map[string]string, url string, body []byte) ([]byte, int, error) {
@@ -110,4 +109,10 @@ func doHttpPost(header map[string]string, url string, body []byte) ([]byte, int,
 
 	b, e := ioutil.ReadAll(res.Body)
 	return b, res.StatusCode, e
+}
+
+func ifErr(e error) {
+	if e != nil {
+		panic(e)
+	}
 }
